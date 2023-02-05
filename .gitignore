@@ -3,6 +3,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+orek-orekan.ipynb
 
 # C extensions
 *.so
