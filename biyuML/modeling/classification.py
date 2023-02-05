@@ -3,8 +3,9 @@ import numpy as np
 
 
 class KNN:
-    def __init__(self, k=3):
+    def __init__(self, k=3, p=2):
         self.k = k
+        self.p = p
         self.X_train = None
         self.y_train = None
 
@@ -13,7 +14,9 @@ class KNN:
         self.y_train = y_train
 
     def _predict(self, x):
-        distances = [np.sqrt(np.sum((x - x_train) ** 2)) for x_train in self.X_train]
+        distances = [
+            (np.sum((x - x_train) ** self.p)) ** 1 / self.p for x_train in self.X_train
+        ]
         k_indices = np.argsort(distances)[: self.k]  # urutin jaraknya, ambil k terdekat
         k_nearest_labels = [self.y_train[i] for i in k_indices]
         most_common = Counter(k_nearest_labels).most_common(1)

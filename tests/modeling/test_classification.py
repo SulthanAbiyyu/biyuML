@@ -13,8 +13,6 @@ def test_knn():
     y_pred = knn.predict(X_test)
     assert np.array_equal(y_pred, y_test)
 
-
-def test_knn_iris():
     iris = pd.read_csv(
         "https://raw.githubusercontent.com/jbrownlee/Datasets/master/iris.csv",
         header=None,
@@ -38,3 +36,8 @@ def test_knn_iris():
     knn.fit(X_train, y_train)
     y_pred = knn.predict(X_test)
     assert np.mean(y_pred == y_test) > 0.7
+
+    knn_p = KNN(k=5, p=1)
+    knn_p.fit(X_train, y_train)
+    y_pred = knn_p.predict(X_test)
+    assert np.mean(y_pred == y_test) > 0.9
