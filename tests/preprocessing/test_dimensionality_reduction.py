@@ -1,5 +1,5 @@
 import numpy as np
-from ppm.preprocessing.dimensionality_reduction import *
+from biyuML.preprocessing.dimensionality_reduction import *
 
 
 def test_pca():

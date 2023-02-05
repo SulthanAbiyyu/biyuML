@@ -1,5 +1,5 @@
 import numpy as np
-from ppm.preprocessing.normalization import *
+from biyuML.preprocessing.normalization import *
 
 
 def test_min_max():
@@ -7,9 +7,7 @@ def test_min_max():
     min_max = MinMaxNormalization()
     normalized = min_max.fit_transform(data)
     assert np.array_equal(normalized, np.array([0, 0.25, 0.5, 0.75, 1]))
-
     assert np.min(normalized) == 0.0
-
     assert np.max(normalized) == 1.0
 
 
