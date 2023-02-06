@@ -2,10 +2,10 @@
 
 ## Methodologies
 
-- [ x ] Data Normalization
-- [ x ] PCA
-- [ x ] K-Nearest Neighbour
-- [ x ] Naive Bayes
+- [x] Data Normalization
+- [x] PCA
+- [x] K-Nearest Neighbour
+- [x] Naive Bayes
 - [ ] Decision Tree
 - [ ] SVM
 - [ ] Classification evaluation
