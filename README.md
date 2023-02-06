@@ -6,7 +6,7 @@
 - [x] PCA
 - [x] K-Nearest Neighbour
 - [x] Naive Bayes
-- [ ] Decision Tree
+- [x] Decision Tree
 - [ ] SVM
 - [ ] Classification evaluation
 - [ ] K-Means

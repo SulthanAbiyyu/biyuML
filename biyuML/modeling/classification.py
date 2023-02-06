@@ -85,3 +85,72 @@ class NaiveBayes:
             y_pred.append(current_max)
 
         return np.array(y_pred)
+
+
+# TODO: Implement pruning
+class DecisionTree:
+    def __init__(self):
+        self.tree = None
+
+    def _gini_impurity(self, y):
+        _class, counts = np.unique(y, return_counts=True)
+        return 1 - np.sum(
+            [(counts[i] / np.sum(counts)) ** 2 for i in range(len(_class))]
+        )
+
+    def _gini_split(self, X, y, feature):
+        _feature, counts = np.unique(X, return_counts=True)
+        gini_split = np.sum(
+            [
+                (counts[i] / np.sum(counts))
+                * self._gini_impurity(y[(X[feature] == _feature[i]).dropna()])
+                for i in range(len(_feature))
+            ]
+        )
+        return gini_split
+
+    def _grow_tree(self, X, X_ori, y, parent_class=None):
+        if len(np.unique(y)) <= 1:
+            return np.unique(y)
+        elif len(X) == 0:
+            return np.unique(y)[np.argmax(np.unique(y, return_counts=True)[1])]
+        elif len(X.columns) == 0:
+            return parent_class
+        else:
+            parent_class = np.unique(y)[np.argmax(np.unique(y, return_counts=True)[1])]
+            gini_splits = [self._gini_split(X_ori, y, feature) for feature in X.columns]
+            best_feature = X.columns[np.argmin(gini_splits)]
+            tree = {best_feature: {}}
+            for value in np.unique(X[best_feature]):
+                sub_X = X[X[best_feature] == value].drop(best_feature, axis=1)
+                sub_y = y[X[best_feature] == value]
+                subtree = self._grow_tree(sub_X, X_ori, sub_y, parent_class)
+                tree[best_feature][value] = subtree
+            return tree
+
+    def fit(self, X, y):
+        self.tree = self._grow_tree(X, X, y)
+
+    def _predict(self, X_test, tree=None):
+        if tree is None:
+            tree = self.tree
+        if not isinstance(X_test, dict):
+            X_test = X_test.to_dict()
+        for key in list(X_test.keys()):
+            if key in list(tree.keys()):
+                try:
+                    result = tree[key][X_test[key]]
+                except:
+                    return
+                result = tree[key][X_test[key]]
+
+                if isinstance(result, dict):
+                    return self._predict(X_test, tree=result)
+                else:
+                    return result
+
+    def predict(self, X_test):
+        y_pred = []
+        for i in range(len(X_test)):
+            y_pred.append(self._predict(X_test.T[i]))
+        return np.array(y_pred)
