@@ -48,7 +48,7 @@ def test_naive_bayes():
 
 def test_decision_tree():
     data = pd.read_csv(
-        "https://gist.githubusercontent.com/Arceister/a890983a3c3f151eebf5702d870d93a7/raw/a4ed5bf0d779a8c8b8cda7145c44e1a36fe8f7ca/car_evaluation.csv"
+        "https://raw.githubusercontent.com/harrypnh/decision-tree-from-scratch/main/dataset_files/car_evaluation.csv"
     )
     X, y = data.drop("class", axis=1), data["class"]
 
