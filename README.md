@@ -7,7 +7,7 @@
 - [x] K-Nearest Neighbour
 - [x] Naive Bayes
 - [x] Decision Tree
-- [ ] SVM
+- [x] SVM
 - [ ] Classification evaluation
 - [ ] K-Means
 - [ ] Hierarchial Clustering
