@@ -154,3 +154,40 @@ class DecisionTree:
         for i in range(len(X_test)):
             y_pred.append(self._predict(X_test.T[i]))
         return np.array(y_pred)
+
+
+class SVM:
+    def __init__(self, mode="binary"):
+        self.mode = mode
+
+    def _loss_binary(self, w, X, y, reg_rate=10000, lr=0.000001):
+        for idx, x in enumerate(X):
+            dist = 1 - (y[idx] * np.dot(x, w))
+            grad = np.zeros(len(w))
+
+            if max(0, dist) == 0:
+                grad = w
+            else:
+                grad = w - (reg_rate * y[idx] * x)
+
+            w = w - (lr * grad)
+        return w
+
+    def fit(self, X, y, epoch=1000):
+        if not isinstance(X, np.ndarray):
+            raise TypeError("X must be a numpy array")
+        if not isinstance(y, np.ndarray):
+            raise TypeError("y must be a numpy array")
+
+        w = np.zeros(X.shape[1])
+        for _ in range(epoch):
+            if self.mode == "binary":
+                self.w = self._loss_binary(w, X, y)
+            else:
+                raise NotImplementedError("Only binary classification is implemented")
+
+    def predict(self, X):
+        if not isinstance(X, np.ndarray):
+            raise TypeError("X must be a numpy array")
+
+        return np.sign(np.dot(X, self.w))

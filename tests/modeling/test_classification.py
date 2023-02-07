@@ -58,3 +58,35 @@ def test_decision_tree():
     y_pred = dt.predict(X)
 
     assert np.mean(y_pred.ravel() == y) == 1.0
+
+
+def test_svm_binary():
+    iris = pd.read_csv(
+        "https://raw.githubusercontent.com/jbrownlee/Datasets/master/iris.csv",
+        header=None,
+        names=["sepal_length", "sepal_width", "petal_length", "petal_width", "class"],
+    )
+    labels = {
+        "Iris-setosa": -1,
+        "Iris-versicolor": 1,
+    }
+
+    X = iris.drop(columns=["class"])
+    y = iris["class"]
+    X = X.drop(y[y == "Iris-virginica"].index, axis=0)
+    y = y.drop(y[y == "Iris-virginica"].index)
+    y = y.replace(labels).values
+
+    indices = np.random.permutation(len(X))
+    X = X.loc[indices]
+    y = y[indices]
+    X_train = X[:80]
+    y_train = y[:80]
+    X_test = X[80:]
+    y_test = y[80:]
+
+    svm = SVM()
+    svm.fit(X_train.to_numpy(), y_train)
+    y_pred = svm.predict(X_test.to_numpy())
+
+    assert np.mean(y_pred == y_test) > 0.7
